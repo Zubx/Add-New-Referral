@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+  />
+  <style>
+    #logo {
+      position: absolute;
+      top: 10px; /* Adjust the top position as needed */
+      left: 10px; /* Adjust the left position as needed */
+      height: 100px; /* Adjust the height as needed */
+      width: auto; /* Maintain aspect ratio */
+    }
+
+    #message {
+      display: none;
+      margin: 20px;
+      font-weight: bold;
+      padding: 8px;
+      border-radius: 4px;
+      border-color: aquamarine;
+    }
+
+    .redirect-button-container {
+      text-align: center; /* Center-align the button */
+      margin: 20px 0; /* Add some margin above and below */
+    }
+
+  </style>
+</head>
+<body>
+  <img id="logo" src="https://down-id.img.susercontent.com/file/ce52105acec20cf0c54bcb7aef715a2a" alt="Company Logo" />
+  
+  <section class="hero is-primary is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Formulir Tambah Calo Member get Member GUNKA</h1>
+      </div>
+    </div>
+  </section>
+
+    <!-- Redirect Button -->
+  <div class="redirect-button-container">
+    <a href="URL_OF_THE_OTHER_PAGE" class="button is-link is-large">
+      Halaman Validasi Pembelian
+    </a>
+  </div>
+  
+  <form id="form" class="container m-4 pl-4">
+    <div class="field">
+      <label class="label">Nama Calo</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Nama Lengkap"
+          name="Client Name"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Kode/No. Telp Calo</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Masukkan Nomor Wa dengan mengganti + dengan G (e.g., G62xxxxxxxxx)"
+          name="Phone Number"
+          required
+        />
+      </div>
+    </div>
+
+    <!--
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Your Password"
+          name="Password"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Date of Birth</label>
+      <div class="control">
+        <input
+          class="input"
+          type="date"
+          placeholder="Your Date of Birth"
+          name="Date"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Gender</label>
+      <div class="control">
+        <label class="radio">
+          <input type="radio" name="Gender" value="male" /> Male
+        </label>
+        <label class="radio">
+          <input type="radio" name="Gender" value="female" /> Female
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Agree to Terms</label>
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" name="Agree To Terms" value="yes" required /> I agree to the terms and conditions
+        </label>
+      </div>
+    </div>
+    -->
+
+    <div class="field">
+      <label class="label">Informasi Tambahan</label>
+      <div class="control">
+        <textarea
+          class="textarea"
+          placeholder="Opsional, Bisa menambahkan Domisili atau Tahu Info member get member darimana"
+          name="Notes"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-primary" type="submit" id="submit-button">
+          Daftarkan
+        </button>
+      </div>
+      <div class="control">
+        <button class="button is-danger" type="button" onclick="document.getElementById('form').reset();">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+  <div id="message"></div>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const messageElem = document.getElementById("message");
+      messageElem.textContent = "Submitting...";
+      messageElem.style.display = "block";
+      document.getElementById("submit-button").disabled = true;
+
+      var formData = new FormData(this);
+      var keyValuePairs = [];
+      for (var pair of formData.entries()) {
+        keyValuePairs.push(pair[0] + "=" + encodeURIComponent(pair[1]));
+      }
+
+      var formDataString = keyValuePairs.join("&");
+
+      fetch("https://script.google.com/macros/s/AKfycbygg1DvOPZokUFkDSM8BSEin7ZG4W5BppoPpb2oQNX2f5lznpsCg3CihJzqmp-nUmlV/exec?page=Code", {
+        method: "POST",
+        body: formDataString,
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            throw new Error(data.error);
+          }
+          messageElem.textContent = "Data submitted successfully!";
+          messageElem.style.backgroundColor = "green";
+          messageElem.style.color = "beige";
+          document.getElementById("submit-button").disabled = false;
+          document.getElementById("form").reset();
+          setTimeout(() => {
+            messageElem.textContent = "";
+            messageElem.style.display = "none";
+          }, 2600);
+        })
+        .catch(error => {
+          console.error(error);
+          messageElem.textContent = error.message;
+          messageElem.style.backgroundColor = "red";
+          messageElem.style.color = "white";
+          document.getElementById("submit-button").disabled = false;
+        });
+    });
+  </script>
+</body>
+</html>
